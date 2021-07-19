@@ -3,7 +3,6 @@ import classes from './Joblist.module.css'
 import SelectedTags from '../JobList/SelectedTags'
 import {useDispatch, useSelector} from 'react-redux';
 import JobItem from "./JobItem/JobItem";
-import {useMediaQuery} from "react-responsive";
 
 
 
@@ -15,8 +14,6 @@ const Joblist = (props) =>{
     const [appStartInitialJoblist, setAppStartInitialJobList] = useState([]);
     const jobTagsDisplayState = useSelector((state) => state.jobTagsToDisplayReducer);
     const JOB_LIST_INITIAL = useSelector((state) => state.jobListToDisplayReducer  );
-
-    const isMobile = useMediaQuery({ query: `(max-width: 376px)` });
 
 
     let initial_JobList = JOB_LIST_INITIAL['jobList'];
@@ -83,40 +80,8 @@ const Joblist = (props) =>{
 
 
 
-    if(isMobile){
-        if(jobTagsDisplayState['jobTagsDisplayState'].length > 0){
-            const styles = classes['expand-margin-for-joblist'] + ' ' + classes['ul-joblist']
+    const styleForJobListInMobile =  jobTagsDisplayState['jobTagsDisplayState'].length  > 0 ? classes['ul-joblist'] + ' ' + classes['joblistExtraMargin'] : classes['ul-joblist'] ;
 
-            return (
-                <Fragment>
-
-                    <div className={classes['job-list']}>
-                        {jobTagsDisplayState['jobTagsDisplayState'].length > 0 ? <SelectedTags/>: null
-                        }
-                        <ul className={styles}>
-                            {jobItemsInList}
-                        </ul>
-
-                    </div>
-                </Fragment>
-
-            )
-        }
-        return (
-            <Fragment>
-
-                <div className={classes['job-list']}>
-                    {jobTagsDisplayState['jobTagsDisplayState'].length > 0 ? <SelectedTags/> : null
-                    }
-                    <ul className={classes['ul-joblist']}>
-                        {jobItemsInList}
-                    </ul>
-
-                </div>
-            </Fragment>
-
-        )
-    }
 
     return (
         <Fragment>
@@ -124,7 +89,7 @@ const Joblist = (props) =>{
             <div className={classes['job-list']}>
                 {jobTagsDisplayState['jobTagsDisplayState'].length > 0 ? <SelectedTags/> : null
                 }
-                <ul className={classes['ul-joblist']}>
+                <ul className={styleForJobListInMobile}>
                     {jobItemsInList}
                 </ul>
 
